@@ -1,0 +1,9 @@
+venv/
+cctv/
+processed/
+__pycache__/
+*.pyc
+test_output/
+*.pt
+.config/
+runs/
