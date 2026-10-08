@@ -30,7 +30,7 @@ This handbook documents all runtime errors, algorithmic bugs, memory bottlenecks
   NameError: name 'backSub' is not defined
   ```
 * **Root Cause**: The background subtractor object was instantiated at line 44 as `bg = cv2.createBackgroundSubtractorMOG2(...)`, but later referenced with the variable name `backSub`.
-* **Fix**: Standardized object variable reference to `self.bg_subtractor` or `bg.apply(gray)` in [`detector.py`](file:///home/sanal-sivakumar/Documents/smart-cctv/detector.py).
+* **Fix**: Standardized object variable reference to `self.bg_subtractor` or `bg.apply(gray)` in [`detector.py`](file:///home/sanal-sivakumar/Documents/SlimVision/detector.py).
 
 ---
 
@@ -66,7 +66,7 @@ This handbook documents all runtime errors, algorithmic bugs, memory bottlenecks
 ### 2.1 Dropped Final Event at End of Video (EOF)
 * **Symptom**: If an intruder or moving vehicle appears in the last 5–10 seconds of a video, the footage is missing from the output file, and the event is absent from the JSON log.
 * **Root Cause**: In the `while True` frame loop, events were only finalized inside the `else` branch (when silence exceeded `NO_MOTION_LIMIT`). When `cap.read()` reached EOF (`ret == False`), the loop exited abruptly, discarding all remaining frames in `frame_buffer` and abandoning the active event.
-* **Fix**: Added explicit post-loop stream flushing in [`pipeline.py`](file:///home/sanal-sivakumar/Documents/smart-cctv/pipeline.py):
+* **Fix**: Added explicit post-loop stream flushing in [`pipeline.py`](file:///home/sanal-sivakumar/Documents/SlimVision/pipeline.py):
   ```python
   if is_recording:
       event_end_frame = frame_idx

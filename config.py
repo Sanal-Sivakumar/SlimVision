@@ -71,6 +71,8 @@ class OutputConfig:
 class AppConfig:
     """Master Application Configuration."""
     input_folder: str = "cctv"
+    watch_mode: bool = False               # Continuous 24/7 folder watcher daemon mode
+    poll_interval_sec: float = 5.0         # Polling interval in seconds when watching folder
     mog2: MOG2Config = field(default_factory=MOG2Config)
     yolo: YOLOConfig = field(default_factory=YOLOConfig)
     buffer: BufferConfig = field(default_factory=BufferConfig)
@@ -94,10 +96,11 @@ class AppConfig:
         output = OutputConfig(**data.get("output", {}))
         return cls(
             input_folder=data.get("input_folder", "cctv"),
+            watch_mode=data.get("watch_mode", False),
+            poll_interval_sec=data.get("poll_interval_sec", 5.0),
             mog2=mog2,
             yolo=yolo,
             buffer=buffer,
             safety=safety,
             output=output
         )
-
